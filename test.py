@@ -44,9 +44,9 @@ def create_annotation_files(data_root, train_annotation, valid_annotation, split
     write_annotation_file(valid_files, valid_annotation)
 
 # Paths to the data directories and annotation files
-data_root = r'D:\Data\image_random\random'
-train_annotation = r'D:\Data\image_random\train_annotation.txt'
-valid_annotation =r'D:\Data\image_random\valid_annotation.txt'
+data_root = r'D:\Data\image_vi_00\vi_00'
+train_annotation = r'D:\Data\image_vi_00\train_annotation.txt'
+valid_annotation =r'D:\Data\image_vi_00\valid_annotation.txt'
 
 # Create the annotation files
 create_annotation_files(data_root, train_annotation, valid_annotation, split_ratio=0.8)
