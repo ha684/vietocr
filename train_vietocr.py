@@ -5,7 +5,7 @@ config = Cfg.load_config_from_name('vgg_seq2seq')
 
 dataset_params = {
     'name': 'ha',
-    'data_root': '/kaggle/input/vietocrdata/vietocrdata/',
+    'data_root': '/kaggle/input/vietocrdata1/vietocrdata/',
     'train_annotation': 'train_line_annotation.txt',
     'valid_annotation': 'test_line_annotation.txt'
 }
