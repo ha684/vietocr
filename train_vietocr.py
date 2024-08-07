@@ -26,5 +26,6 @@ config['dataloader']['num_workers'] = 0
 
 trainer = Trainer(config, pretrained=True)
 trainer.train()
+config.save('config.yml')
 
 
