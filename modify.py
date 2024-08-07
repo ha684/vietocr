@@ -2,13 +2,13 @@
 def replace_path(data):
     new_data = []
     for line in data:
-        new_line = line.replace("D:\\Data\\image_random\\random\\", "InkData_line_processed/")
+        new_line = line.replace("D:\\Data\\image_vi_00\\vi_00\\", "InkData_line_processed/")
         new_data.append(new_line)
     return new_data
 
 # Read the file, replace the paths, and write back to the file
-input_file_path = r'D:\Data\image_random\train_annotation.txt'
-output_file_path = r'D:\Data\image_random\train_annotation.txt'
+input_file_path = r'D:\Data\image_vi_00\valid_annotation.txt'
+output_file_path = r'D:\Data\image_vi_00\valid_annotation.txt'
 
 with open(input_file_path, 'r', encoding='utf-8') as file:
     data = file.readlines()
