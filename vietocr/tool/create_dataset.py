@@ -51,7 +51,6 @@ def createDataset(outputPath, root_dir, annotation_path):
     
     pbar = tqdm(range(nSamples), ncols = 100, desc='Create {}'.format(outputPath)) 
     for i in pbar:
-        print(annotations[i])
         imageFile, label = annotations[i]
         imagePath = os.path.join(root_dir, imageFile)
 
