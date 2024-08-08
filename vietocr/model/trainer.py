@@ -25,6 +25,40 @@ import os
 import matplotlib.pyplot as plt
 import time
 
+class EarlyStopping:
+    def __init__(self, patience=7, verbose=False, delta=0):
+        self.patience = patience
+        self.verbose = verbose
+        self.counter = 0
+        self.best_score = None
+        self.early_stop = False
+        self.val_loss_min = float('inf')
+        self.delta = delta
+
+    def __call__(self, val_loss, model, path):
+        score = -val_loss
+
+        if self.best_score is None:
+            self.best_score = score
+            self.save_checkpoint(val_loss, model, path)
+        elif score < self.best_score + self.delta:
+            self.counter += 1
+            if self.verbose:
+                print(f'EarlyStopping counter: {self.counter} out of {self.patience}')
+            if self.counter >= self.patience:
+                self.early_stop = True
+        else:
+            self.best_score = score
+            self.save_checkpoint(val_loss, model, path)
+            self.counter = 0
+
+    def save_checkpoint(self, val_loss, model, path):
+        '''Saves model when validation loss decreases.'''
+        if self.verbose:
+            print(f'Validation loss decreased ({self.val_loss_min:.6f} --> {val_loss:.6f}).  Saving model ...')
+        torch.save(model.state_dict(), path)
+        self.val_loss_min = val_loss
+        
 class Trainer():
     def __init__(self, config, pretrained=True, augmentor=ImgAugTransformV2()):
 
@@ -81,7 +115,8 @@ class Trainer():
         self.train_losses = []
         self.model = nn.DataParallel(self.model)
         self.model.to(self.device)
-        
+        self.early_stopping = EarlyStopping(patience=config['trainer'].get('patience', 10), verbose=True)
+
     def train(self):
         total_loss = 0
         
@@ -130,6 +165,11 @@ class Trainer():
                 if acc_full_seq > best_acc:
                     self.save_weights(self.export_weights)
                     best_acc = acc_full_seq
+                    
+                self.early_stopping(val_loss, self.model, self.export_weights)
+                if self.early_stopping.early_stop:
+                    print("Early stopping")
+                    break
 
             
     def validate(self):
