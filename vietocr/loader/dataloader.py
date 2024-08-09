@@ -94,8 +94,8 @@ class OCRDataset(Dataset):
     def read_data(self, idx):
         buf, label, img_path = self.read_buffer(idx) 
 
-        img = Image.open(buf).convert('RGB')        
-       
+        img = Image.open(buf)
+        img = img.convert('RGB')
         if self.transform:
             img = self.transform(img)
 
